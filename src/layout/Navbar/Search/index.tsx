@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { ArticleContext } from '../../../contexts/articleContext';
 
@@ -10,8 +10,13 @@ import StyledSearch from './Search.style';
 function Search() {
     const [selection, setSelection] = useState("");
     const navigate = useNavigate();
+    const location = useLocation();
 
     const contextData: ArticleData[] | null = useContext(ArticleContext) 
+
+    useEffect(() => {
+        setSelection("")
+    }, [location])
 
     return ( 
         <StyledSearch>
