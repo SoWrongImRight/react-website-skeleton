@@ -6,6 +6,7 @@ import Banner from './layout/Banner';
 import Header from './layout/Header';
 import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
+import Sidebar from './layout/Sidebar'
 
 // Import Pages
 import Home from './pages/Home';
@@ -36,6 +37,7 @@ function App() {
         <ArticleProvider>
           <Router>
             <Navbar />
+            <Sidebar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
