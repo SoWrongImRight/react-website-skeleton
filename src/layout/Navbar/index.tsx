@@ -1,26 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { navLinks } from "../../data/navData";
 
 import Search from './Search';
-
-const navLinks = [
-    {
-        name: "home",
-        url: "/"
-    },
-    {
-        name: "about",
-        url: "/about"
-    },
-    {
-        name: "articles",
-        url: "/articles"
-    },
-    {
-        name: "contact",
-        url: "/contact"
-    },
-]
 
 function Navbar() {
     return ( 
