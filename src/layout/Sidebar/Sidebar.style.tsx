@@ -15,6 +15,8 @@ const StyledSidebar = styled.ul`
         list-style: none;
         padding: 5px 0;
         z-index: 10;
+        margin: 2rem;
+        cursor: pointer;
       }
     }
 

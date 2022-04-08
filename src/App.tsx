@@ -1,5 +1,9 @@
-import React, {useState} from 'react';
+import { useState, lazy,  Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Import Components
+import ErrorBoundary from "./components/ErrorBoundary";
+import Spinner from './components/Spinner';
 
 // Import Layout
 import Banner from './layout/Banner';
@@ -10,11 +14,6 @@ import Sidebar from './layout/Sidebar'
 
 // Import Pages
 import Home from './pages/Home';
-import About from './pages/About';
-import Articles from './pages/Articles';
-import Contact from './pages/Contact';
-import ArticleList from './pages/Articles/ArticleList';
-import Article from './pages/Articles/Article';
 
 // Import Contexts
 import { ArticleProvider } from './contexts/articleContext';
@@ -24,6 +23,12 @@ import GlobalStyle from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { primaryTheme } from './styles/theme';
 
+// Lazy Loads
+const About = lazy(() => import('./pages/About'));
+const Article = lazy(() => import('./pages/Articles/Article'));
+const ArticleList = lazy(() => import('./pages/Articles/ArticleList'));
+const Articles = lazy(() => import('./pages/Articles'));
+const Contact = lazy(() => import('./pages/Contact'));
 
 function App() {
   const [isBanner, setIsBanner] = useState(false)
@@ -35,19 +40,23 @@ function App() {
         {isBanner && <Banner />}
         <Header />
         <ArticleProvider>
+        <ErrorBoundary>
           <Router>
             <Navbar />
             <Sidebar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="articles" element={<Articles />}>
-                <Route path="" element={<ArticleList />} />
-                <Route path=":id" element={<Article />} />
-              </Route>
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
+            <Suspense fallback={<Spinner />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="articles" element={<Articles />}>
+                  <Route path="" element={<ArticleList />} />
+                  <Route path=":id" element={<Article />} />
+                </Route>
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </Suspense>
           </Router>
+        </ErrorBoundary>
         </ArticleProvider>
         <Footer />      
       </ThemeProvider>
