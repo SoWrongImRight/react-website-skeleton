@@ -1,10 +1,13 @@
 import React from 'react';
 
+// Import style
+import StyledHome from './Home.styles';
+
 function Home() {
     return ( 
-        <div>
+        <StyledHome>
             <h1>Home Page</h1>
-        </div>
+        </StyledHome>
      );
 }
 

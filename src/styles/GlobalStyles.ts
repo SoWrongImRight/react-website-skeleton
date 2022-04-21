@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
         font-size: calc(10px + 2vmin);
         font-family: Verdana, sans-serif;
         overflow-x: hidden;
+        z-index: 1;
     }
 
     a {
