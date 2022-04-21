@@ -11,7 +11,7 @@ export const ArticleProvider = (props: any) => {
 
     async function getArticles() {
         try {
-            const { data, status } = await axios.get<ArticleData[]>('https://jsonplaceholder.typicode.com/posts?_limit=25');
+            const { data } = await axios.get<ArticleData[]>('https://jsonplaceholder.typicode.com/posts?_limit=25');
 
             setArticleProviderData(data)
         } catch(error) {

@@ -1,10 +1,12 @@
 import React from 'react';
 
+import StyledContact from './Contact.styles';
+
 function Contact() {
     return ( 
-        <div>
+        <StyledContact>
             <h1>Contact</h1>
-        </div>
+        </StyledContact>
      );
 }
 
