@@ -10,9 +10,17 @@ const maxPostPage = 10;
 
 async function fetchPosts(pageNum: number) {
     const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${pageNum}`
+        `https://jsonplaceholder.typicode.com/posts?_limit=25&_page=${pageNum}`
     );
+    if(!response.ok){
+        throw new Error('Network response was not ok')
+    }
     return response.json();
+}
+
+// ReactQuery error type check function
+function checkError(error: unknown): error is Error {
+    return error instanceof Error;
 }
 
 function ArticleList() {
@@ -28,23 +36,38 @@ function ArticleList() {
     }, [currentPage, queryClient])
 
     const { data, isError, isLoading, error } = useQuery(["posts", currentPage], () => fetchPosts(currentPage), {
-        staleTime: 2000,
         keepPreviousData: true,
     })
 
     if(isLoading) return <Spinner />
-    if(isError) return <><div>Error loading article data</div></>
+    if(isError) {
+        if (checkError(error)) {
+            return <p>Error:  {error.message}</p>
+        }
+    }
 
     return (
-        <ul>
-            {data.map((post: ArticleData) => (
-                <Link to={`/articles/${post.id}`}>
-                    <li key={post.id} >
-                        {post.title}
-                    </li>
-                </Link>
-            ))}
-        </ul>
+        <>
+            <ul>
+                {data.map((post: ArticleData) => (
+                    <Link key={post.id}  to={`/articles/${post.id}`}>
+                        <li >
+                            {post.title}
+                        </li>
+                    </Link>
+                ))}
+            </ul>
+            <span>
+                <button 
+                    disabled = {currentPage <= 1}
+                    onClick={() => setCurrentPage((previousValue) => previousValue - 1)} 
+                >Previous</button>
+                <span>Current Page: {currentPage}</span>
+                <button 
+                    onClick={() => {setCurrentPage((previousValue) => previousValue + 1)}}
+                >Next</button>
+            </span>
+        </>
     )
 }
 

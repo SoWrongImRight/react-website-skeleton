@@ -29,11 +29,11 @@ function App() {
     <>
       <GlobalStyle />
       <ThemeProvider theme={primaryTheme}>
+            <ArticleQueryProvider>
 
 
           <Router>
           <Layout>
-            <ArticleQueryProvider>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
@@ -44,10 +44,10 @@ function App() {
               <Route path="/contact" element={<Contact />} />
             </Routes>
             <ReactQueryDevtools />
-            </ArticleQueryProvider>
           </Layout>
           </Router>
 
+            </ArticleQueryProvider>
       </ThemeProvider>
     </>
   );

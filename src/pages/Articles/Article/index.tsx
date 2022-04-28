@@ -13,12 +13,21 @@ async function getPostById(id: string) {
     return response.json();
 }
 
+// ReactQuery error type check function
+function checkError(error: unknown): error is Error {
+    return error instanceof Error;
+}
+
 function Article() {
     const {id} = useParams();
 
     const { data, isLoading, isError, error } = useQuery(["post", id], () => getPostById(id!))
     if(isLoading) return <Spinner />
-    if(isError) return <div>Error</div>
+    if(isError) {
+        if (checkError(error)) {
+            return <p>Error:  {error.message}</p>
+        }
+    } 
 
     return ( 
         <div>

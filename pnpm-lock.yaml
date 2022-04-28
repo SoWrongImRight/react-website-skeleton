@@ -22,6 +22,7 @@ specifiers:
   react-scripts: 5.0.0
   styled-components: ^5.3.5
   typescript: ^4.6.3
+  use-debounce: ^7.0.1
   web-vitals: ^0.2.4
   workbox-background-sync: ^5.1.4
   workbox-broadcast-update: ^5.1.4
@@ -53,6 +54,7 @@ dependencies:
   react-scripts: 5.0.0_73vbl4jqq7ynv3vxe2dmnviu5i
   styled-components: 5.3.5_ef5jwxihqo6n7gxfmzogljlgcm
   typescript: 4.6.3
+  use-debounce: 7.0.1_react@18.1.0
   web-vitals: 0.2.4
   workbox-background-sync: 5.1.4
   workbox-broadcast-update: 5.1.4
@@ -9560,6 +9562,15 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.1.1
+    dev: false
+
+  /use-debounce/7.0.1_react@18.1.0:
+    resolution: {integrity: sha512-fOrzIw2wstbAJuv8PC9Vg4XgwyTLEOdq4y/Z3IhVl8DAE4svRcgyEUvrEXu+BMNgMoc3YND6qLT61kkgEKXh7Q==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.1.0
     dev: false
 
   /util-deprecate/1.0.2:

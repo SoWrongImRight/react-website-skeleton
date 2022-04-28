@@ -19,6 +19,7 @@
     "react-scripts": "5.0.0",
     "styled-components": "^5.3.5",
     "typescript": "^4.6.3",
+    "use-debounce": "^7.0.1",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
