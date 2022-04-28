@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useLocation  } from 'react-router-dom';
 
-import { ArticleContext } from '../../contexts/articleContext';
-
 import ArticleData from '../../types/article.type';
 
 import StyledSearch from './Search.style';
@@ -20,8 +18,6 @@ const Search = ( {clear = true}: Props ) => {
         setSelection("")
     }, [location])
 
-    const contextData: ArticleData[] | null = useContext(ArticleContext) 
-
     return ( 
         <StyledSearch>
             <label htmlFor='search-box' style={{ display: "none" }}>Search</label>
@@ -29,7 +25,7 @@ const Search = ( {clear = true}: Props ) => {
             {clear && <button onClick={() => setSelection("")}>Clear</button>}
             { selection.length ? 
                 <div className="results" >
-                    { contextData?.filter(data => data.title.includes(selection) || data.body.includes(selection)).slice(0,5).map(data => <p key={data.id} onClick={() => navigate(`/articles/${data.id}`)}>{data.title.substring(0,15)}</p>)}
+               
                 </div> 
                 : null
             }

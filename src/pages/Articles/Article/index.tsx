@@ -1,26 +1,29 @@
-import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-Markdown';
+import { useQuery } from 'react-query';
 
+// Import Components
 import GoBack from './GoBack';
+import Spinner from '../../../components/Spinner';
 
-import { ArticleContext } from '../../../contexts/articleContext';
-
-import ArticleData from '../../../types/article.type';
+async function getPostById(id: string) {
+    const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts/${id}`
+    );
+    return response.json();
+}
 
 function Article() {
     const {id} = useParams();
 
-    const contextData: ArticleData[] | null = useContext(ArticleContext) 
-
-    const post = contextData!.find(data => data.id === parseInt(id!))
-
-    console.log(post)
+    const { data, isLoading, isError, error } = useQuery(["post", id], () => getPostById(id!))
+    if(isLoading) return <Spinner />
+    if(isError) return <div>Error</div>
 
     return ( 
         <div>
-            <h1>{post!.title}</h1>
-            <p>{post!.body}</p>
+            <h1>{data.title}</h1>
+            <p>{data.body}</p>
             <GoBack />
         </div>
      );

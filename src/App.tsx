@@ -7,8 +7,9 @@ import Layout from './layout';
 // Import Pages
 import Home from './pages/Home';
 
-// Import Contexts
-import { ArticleProvider } from './contexts/articleContext';
+// Import QueryClient
+import { ArticleQueryProvider } from "./reactQuery/queryClient";
+import { ReactQueryDevtools} from 'react-query/devtools'
 
 // Style Imports
 import GlobalStyle from './styles/GlobalStyles';
@@ -29,21 +30,24 @@ function App() {
       <GlobalStyle />
       <ThemeProvider theme={primaryTheme}>
 
-        <ArticleProvider>
+
           <Router>
           <Layout>
+            <ArticleQueryProvider>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              <Route path="articles" element={<Articles />}>
-                <Route path="" element={<ArticleList />} />
-                <Route path=":id" element={<Article />} />
-              </Route>
+                <Route path="articles" element={<Articles />}>
+                  <Route path="" element={<ArticleList />} />
+                  <Route path=":id" element={<Article />} />
+                </Route>
               <Route path="/contact" element={<Contact />} />
             </Routes>
+            <ReactQueryDevtools />
+            </ArticleQueryProvider>
           </Layout>
           </Router>
-        </ArticleProvider>
+
       </ThemeProvider>
     </>
   );

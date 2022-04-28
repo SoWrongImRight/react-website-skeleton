@@ -1,38 +1,51 @@
-import React, { useContext, useState, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery, useQueryClient } from "react-query";
 
 import Spinner from '../../../components/Spinner'
 
-import { ArticleContext } from '../../../contexts/articleContext';
-
 import ArticleData from '../../../types/article.type';
 
+const maxPostPage = 10;
+
+async function fetchPosts(pageNum: number) {
+    const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${pageNum}`
+    );
+    return response.json();
+}
+
 function ArticleList() {
-    const [qty, setQty] = useState(5)
-    const [isDisabled, setIsDisabled] = useState(false)
-    const contextData: ArticleData[] | null = useContext(ArticleContext) 
+    const [currentPage, setCurrentPage] = useState(1);
 
-    console.log(contextData!.length)
+    const queryClient = useQueryClient();
 
-    const loadMore = () => {
-        setQty((prevState) => prevState + 5)
-        if (qty >= contextData!.length) {
-            setIsDisabled(true)
+    useEffect(() => {
+        if (currentPage < maxPostPage) {
+            const nextPage = currentPage + 1;
+            queryClient.prefetchQuery(["post", nextPage], () => fetchPosts(nextPage))
         }
-    }
+    }, [currentPage, queryClient])
 
-    return ( 
-        <div>
-            <h1>
-                Article List
-            </h1>
-            <Suspense fallback={<Spinner />}>
-                { contextData ? contextData.slice(0, qty).map((article) => <h2 key={article.id}><Link to={`/articles/${article.id}`} >{article.title}</Link></h2>) : <h2>No Articles Found</h2>}
-            </Suspense>
-            <button disabled={isDisabled} onClick={loadMore}>Load More</button>
-            {isDisabled && <p>No additional articles found</p>}
-        </div>
-     );
+    const { data, isError, isLoading, error } = useQuery(["posts", currentPage], () => fetchPosts(currentPage), {
+        staleTime: 2000,
+        keepPreviousData: true,
+    })
+
+    if(isLoading) return <Spinner />
+    if(isError) return <><div>Error loading article data</div></>
+
+    return (
+        <ul>
+            {data.map((post: ArticleData) => (
+                <Link to={`/articles/${post.id}`}>
+                    <li key={post.id} >
+                        {post.title}
+                    </li>
+                </Link>
+            ))}
+        </ul>
+    )
 }
 
 export default ArticleList;
